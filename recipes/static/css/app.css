@@ -100,7 +100,7 @@ textarea {
   min-width: 300px;
   max-width: 800px;
   text-align: center;
-
+  font-family: cursive
 }
 
 .pull-right {
@@ -110,4 +110,10 @@ textarea {
 
 .control {
   text-align: right;
+}
+
+.img{
+  border-radius: 50%;
+  float: left;
+  margin: 2em;
 }

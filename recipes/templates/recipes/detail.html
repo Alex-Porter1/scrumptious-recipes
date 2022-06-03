@@ -29,14 +29,14 @@
   </header>
   <main class="recipe-detail">
     {% if recipe.image %}
-      <img src="{{ recipe.image }}" class="pull-right">
+    <img src="{{ recipe.image }}" class="img">
     {% endif %}
     <h1>{{ recipe.name }}</h1>
     <p>
       Created on {{ recipe.created }} |
       Updated on {{ recipe.updated }}
     </p>
-    <p>Tags: {% for tag in recipe.tags.all %}{{ tag.name }} {% endfor %}</p>
+    <p>Tags: {% for tag in recipe.tags.all %}{{ tag.name }}{%if not forloop.last%}, {%endif%}{% endfor %}</p>
     <p>{{ recipe.description }}</p>
     <h2>Ingredients</h2>
     <table>
@@ -48,18 +48,18 @@
       </thead>
       <tbody>
         {% for ingredient in recipe.ingredients.all %}
-          <tr>
-            <td>{{ ingredient.amount }}</td>
-            <td>{{ ingredient.measure.name }}</td>
-            <td>{{ ingredient.food.name }}</td>
-          </tr>
+        <tr>
+          <td>{{ ingredient.amount|floatformat:"-3" }}</td>
+          <td>{{ ingredient.measure.name }}</td>
+          <td>{{ ingredient.food.name }}</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
     <h2>Steps</h2>
     <ol>
       {% for step in recipe.steps.all %}
-        <li>{{ step.directions }}</li>
+      <li>{{ step.directions }}</li>
       {% endfor %}
     </ol>
   </main>
