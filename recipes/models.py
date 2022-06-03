@@ -58,3 +58,13 @@ class Ingredient(models.Model):
         measure = self.measure.name
         food = self.food.name
         return amount + " " + measure + " " + food
+
+
+class Rating(models.Model):
+    value = models.PositiveSmallIntegerField(
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
+
+    recipe = models.ForeignKey(
+        "Recipe", related_name="ratings", on_delete=models.CASCADE
+    )
