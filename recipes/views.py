@@ -13,24 +13,6 @@ except Exception:
     Recipe = None
 
 
-def change_recipe(request, pk):
-    if Recipe and RecipeForm:
-        instance = Recipe.objects.get(pk=pk)
-        if request.method == "POST":
-            form = RecipeForm(request.POST, instance=instance)
-            if form.is_valid():
-                form.save()
-                return redirect("recipe_detail", pk=pk)
-        else:
-            form = RecipeForm(instance=instance)
-    else:
-        form = None
-    context = {
-        "form": form,
-    }
-    return render(request, "recipes/edit.html", context)
-
-
 class RecipeCreateView(CreateView):
     model = Recipe
     fields = ["name", "author", "description", "image"]
