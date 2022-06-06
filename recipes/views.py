@@ -1,7 +1,9 @@
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, DetailView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from recipes.forms import RatingForm
 from django.views.generic.edit import CreateView, UpdateView
+
 try:
     from recipes.forms import RecipeForm
     from recipes.models import Recipe
@@ -46,24 +48,14 @@ def change_recipe(request, pk):
 
 class RecipeCreateView(CreateView):
     model = Recipe
-    fields = [
-        "name",
-        "author",
-        "description",
-        "image"
-    ]
+    fields = ["name", "author", "description", "image"]
     template_name = "recipes/new.html"
     success_url = "/"
 
 
 class RecipeUpdateView(UpdateView):
     model = Recipe
-    fields = [
-        "name",
-        "author",
-        "description",
-        "image"
-    ]
+    fields = ["name", "author", "description", "image"]
     template_name = "recipes/edit.html"
     success_url = "/"
 
@@ -74,18 +66,15 @@ class RecipeListView(ListView):
     template_name = "recipes/list.html"
 
 
-def show_recipe(request, pk):
-    context = {
-        "recipe": Recipe.objects.get(pk=pk) if Recipe else None,
-        "rating_form": RatingForm(),
-    }
-    return render(request, "recipes/detail.html", context)
-
-
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = "recipe"
     template_name = "recipes/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["rating_form"] = RatingForm()
+        return context
 
 
 def log_rating(request, recipe_id):
